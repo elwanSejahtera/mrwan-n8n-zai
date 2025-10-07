@@ -1,0 +1,49 @@
+{
+  "name": "ZAI SmartMoney AI",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "analyze",
+        "responseMode": "onReceived",
+        "responseData": "allEntries",
+        "options": {}
+      },
+      "name": "Webhook Entry",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [300, 300],
+      "webhookId": "zai-analyze"
+    },
+    {
+      "parameters": {
+        "url": "https://api.z.ai/v1/chat",
+        "options": {},
+        "method": "POST",
+        "authentication": "none",
+        "jsonParameters": true,
+        "sendHeaders": true,
+        "headerParametersJson": "{\"Authorization\":\"Bearer {{$env(\\\"ZAI_API_KEY\\\")}}\",\"Content-Type\":\"application/json\"}",
+        "bodyParametersJson": "{\"system\":\"You are 'Mr.Wan Trader AI', expert in Smart Money Concepts, Order Blocks, Liquidity Sweep, and institutional flow. Always return structured JSON.\",\"messages\":[{\"role\":\"user\",\"content\":\"Analisa SMC XAU/USD timeframe 5m dengan OHLC: {{$json[\\\"body\\\"]}}\"}],\"max_tokens\":800,\"temperature\":0.1}"
+      },
+      "name": "ZAI API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [600, 300]
+    },
+    {
+      "parameters": {
+        "options": {},
+        "responseData": "={{$json}}"
+      },
+      "name": "Return to User",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [900, 300]
+    }
+  ],
+  "connections": {
+    "Webhook Entry": { "main": [[{ "node": "ZAI API", "type": "main", "index": 0 }]] },
+    "ZAI API": { "main": [[{ "node": "Return to User", "type": "main", "index": 0 }]] }
+  }
+}
