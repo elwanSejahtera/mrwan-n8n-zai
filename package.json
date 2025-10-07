@@ -1,0 +1,12 @@
+{
+  "name": "n8n-server",
+  "version": "1.0.0",
+  "description": "n8n automation server for AI Smart Money",
+  "main": "index.js",
+  "scripts": {
+    "start": "n8n start"
+  },
+  "dependencies": {
+    "n8n": "^1.72.0"
+  }
+}
