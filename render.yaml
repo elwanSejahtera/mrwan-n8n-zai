@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: mrwan-n8n
+    env: docker
+    plan: free
+    autoDeploy: true
+    envVars:
+      - key: GENERIC_TIMEZONE
+        value: Asia/Jakarta
+      - key: N8N_BASIC_AUTH_ACTIVE
+        value: "true"
+      - key: N8N_BASIC_AUTH_USER
+        value: admin
+      - key: N8N_BASIC_AUTH_PASSWORD
+        value: passwordku123
+      - key: WEBHOOK_URL
+        value: https://mrwan-n8n.onrender.com/
+      - key: ZAI_API_KEY
+        sync: false
+      - key: NODE_ENV
+        value: production
